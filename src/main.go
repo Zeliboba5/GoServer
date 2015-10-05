@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"http"
 	"net"
+	"status"
 )
 
 func main() {
-	fmt.Printf("started")
+	fmt.Println("started")
 	ln, er := net.Listen("tcp", ":8080")
 	if er != nil {
 		fmt.Printf("error in listen")
@@ -29,6 +30,18 @@ func handleConnection(conn net.Conn) {
 		fmt.Printf("error in handle")
 	}
 	HttpRequest := string(buf)
-	requestObj := ParseRequestString(HttpRequest)
-	fmt.Println(requestObj.Method)
+	requestObj := http.ParseRequestString(HttpRequest)
+
+	switch requestObj.Method {
+	case "GET":
+		fmt.Println("GET")
+	case "HEAD":
+		fmt.Println("HEAD")
+	default:
+		{
+			fmt.Println(requestObj.Method)
+		}
+	}
+	responseString := status.NOT_FOUND
+	conn.Write([]byte(responseString))
 }

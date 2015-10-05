@@ -1,6 +1,7 @@
 package http
 
 import (
+	// "fmt"
 	"net/url"
 	"strings"
 )
@@ -18,11 +19,11 @@ type Request struct {
 	Method  string
 }
 
-func (r Request) setHeaders(h Headers) {
+func (r *Request) setHeaders(h Headers) {
 	r.Headers = h
 }
 
-func (r Request) parseRequest(s string) {
+func (r *Request) parseRequest(s string) {
 	parts := strings.Split(s, " ")
 	uri := strings.Split(parts[1], "?")
 	cleanedURI, _ := url.QueryUnescape(uri[0])
@@ -32,18 +33,20 @@ func (r Request) parseRequest(s string) {
 }
 
 func getHeaders(data []string) Headers {
-	header := []string{}
+	header := make([]string, 2)
 	headers := Headers{}
 
 	for line := range data {
 		header = strings.Split(data[line], headerSep)
-		headers[header[0]] = header[1]
+		if len(header) > 1 {
+			headers[header[0]] = header[1]
+		}
 	}
 
 	return headers
 }
 
-func ParseRequestText(s string) *Request {
+func ParseRequestString(s string) *Request {
 	splittedRequestString := strings.Split(s, stringSep)
 	request := new(Request)
 
