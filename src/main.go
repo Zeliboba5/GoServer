@@ -3,12 +3,16 @@ package main
 import (
 	"fmt"
 	"http"
+	"loger"
 	"net"
-	"status"
+)
+
+var (
+	root = "static"
 )
 
 func main() {
-	fmt.Println("started")
+	loger.D("STATE", "STARTED")
 	ln, er := net.Listen("tcp", ":8080")
 	if er != nil {
 		fmt.Printf("error in listen")
@@ -32,16 +36,6 @@ func handleConnection(conn net.Conn) {
 	HttpRequest := string(buf)
 	requestObj := http.ParseRequestString(HttpRequest)
 
-	switch requestObj.Method {
-	case "GET":
-		fmt.Println("GET")
-	case "HEAD":
-		fmt.Println("HEAD")
-	default:
-		{
-			fmt.Println(requestObj.Method)
-		}
-	}
-	responseString := status.NOT_FOUND
-	conn.Write([]byte(responseString))
+	response := http.GenerateResponse(requestObj.Method, root+requestObj.URI)
+	conn.Write(response.Bytes())
 }

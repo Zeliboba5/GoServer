@@ -8,9 +8,8 @@ const (
 	FORBIDDEN    string = "403 FORBIDDEN"
 	DEFAULT_FILE string = "/index.html"
 	FILE_404     string = "/404.html"
-	HTTP_VERSION string = "1.1"
 )
 
-func GetStatusLine(status string) string {
-	return "HTTP/" + HTTP_VERSION + " " + status + "\r\n"
-}
+// func GetStatusLine(status string) string {
+// 	return HTTP_PROTO + " " + status + "\r\n"
+// }
