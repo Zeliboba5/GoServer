@@ -3,6 +3,7 @@ package http
 import (
 	"bytes"
 	"io/ioutil"
+	// "loger"
 	"status"
 	"strconv"
 	"time"
@@ -30,19 +31,44 @@ func (r Response) Bytes() []byte {
 	return result.Bytes()
 }
 
+func checkForErrors(response *Response, method string, path string) bool {
+	if !isSecurePath(path) {
+		response.Status = status.FORBIDDEN
+		return true
+	} else if !isCorrectMethod(method) {
+		response.Status = status.ERROR
+		return true
+	} else if !isSupportedMethod(method) {
+		response.Status = status.NOT_ALLOWED
+		return true
+	}
+
+	return false
+}
+
 func GenerateResponse(method string, path string) Response {
 	response := Response{}
 	response.Headers = Headers{}
 	response.addDefaultHeaders()
 
-	if isDirectory(path) {
+	if checkForErrors(&response, method, path) {
+		return response
+	}
+
+	directoryFlag := isDirectory(path)
+
+	if directoryFlag {
 		path += defaultfile
 	}
 
 	data, err := ioutil.ReadFile(path)
 
 	if err != nil {
-		response.Status = status.NOT_FOUND
+		if directoryFlag {
+			response.Status = status.FORBIDDEN
+		} else {
+			response.Status = status.NOT_FOUND
+		}
 		return response
 	}
 

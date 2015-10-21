@@ -13,7 +13,7 @@ var (
 
 func main() {
 	loger.D("STATE", "STARTED")
-	ln, er := net.Listen("tcp", ":8080")
+	ln, er := net.Listen("tcp", ":80")
 	if er != nil {
 		fmt.Printf("error in listen")
 	}

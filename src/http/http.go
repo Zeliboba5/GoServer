@@ -8,7 +8,7 @@ import (
 
 const (
 	defaultfile    = "index.html"
-	dateTimeFormat = "Mon, _1 Jan 1970 12:01:23 GMT"
+	dateTimeFormat = "Mon Jan 2 15:04:05 -0700 GMT 2006"
 	serverName     = "Tornago"
 	headerSep      = ": "
 	stringSep      = "\r\n"
@@ -61,4 +61,8 @@ func isSupportedMethod(method string) bool {
 	}
 
 	return false
+}
+
+func isSecurePath(path string) bool {
+	return !strings.Contains(path, "../")
 }
