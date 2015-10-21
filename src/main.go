@@ -1,18 +1,29 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"http"
 	"loger"
 	"net"
+	"runtime"
 )
 
 var (
-	root = "static"
+	root   string
+	numCPU int
 )
 
 func main() {
 	loger.D("STATE", "STARTED")
+
+	flag.IntVar(&numCPU, "c", runtime.NumCPU(), "set max cpu")
+	flag.Parse()
+
+	flag.StringVar(&root, "r", "static", "set static root directory")
+	flag.Parse()
+
+	runtime.GOMAXPROCS(numCPU)
 	ln, er := net.Listen("tcp", ":80")
 	if er != nil {
 		fmt.Printf("error in listen")
