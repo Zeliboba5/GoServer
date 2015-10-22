@@ -1,3 +1,11 @@
 # Tornago
-park.mail.ru highload
 ![Tornago logo](http://i.imgur.com/Z8G70P2.png)
+
+### Для запуска сервера:
+1. ./make
+2. ./httpd
+
+### Парметры запуска
+
+1. -c=X - количество ядер, по умолчанию выбирается максимум доступных
+2. -r=path/to/static - директория для статических файлов, по умлочанию static
