@@ -2,7 +2,7 @@
 ![Tornago logo](http://i.imgur.com/Z8G70P2.png)
 
 ### Для запуска сервера:
-1. ./make
+1. make
 2. sudo ./httpd - sudo для запуска на порту 80
 
 ### Парметры запуска
