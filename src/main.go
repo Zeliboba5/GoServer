@@ -42,7 +42,7 @@ func handleConnection(conn net.Conn) {
 	buf := make([]byte, 1024)
 	_, err := conn.Read(buf)
 	if err != nil {
-		fmt.Printf("error in handle")
+		return
 	}
 	HttpRequest := string(buf)
 	requestObj := http.ParseRequestString(HttpRequest)
